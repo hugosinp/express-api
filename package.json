@@ -1,0 +1,30 @@
+{
+  "name": "express-api",
+  "version": "1.0.0",
+  "description": "ExpressJS API boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/main.js",
+    "dev"  : "nodemon --exec npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugosinp/express-api.git"
+  },
+  "author": "hugosinp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hugosinp/express-api/issues"
+  },
+  "homepage": "https://github.com/hugosinp/express-api#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.8",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "nodemon": "^2.0.15"
+  }
+}
