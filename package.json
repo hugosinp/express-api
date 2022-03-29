@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/hugosinp/express-api#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.3",
-    "mongoose": "^6.2.9"
+    "mongoose": "^6.2.9",
+    "mongoose-unique-validator": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

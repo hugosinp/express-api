@@ -1,9 +1,11 @@
 import { Router } from 'express'
-import stuff from './stuff/stuff'
+import stuffRoutes from './stuff/stuffRouter'
+import userRoutes from './users/userRouter'
 
 const api = Router();
 
 // Add your routes here
-api.use('/stuff', stuff);
+api.use('/stuff', stuffRoutes);
+api.use('/users', userRoutes);
 
 export default api;
