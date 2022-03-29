@@ -1,18 +1,21 @@
-import { Router } from 'express'
+import { Router } from 'express';
+import auth from '../../../middlewares/auth';
 import {
     getAllUsers,
     getOneUser,
     createUser,
+    logUser,
     updateOneUser,
     deleteOneUser
-} from './userControler'
+} from './userControler';
 
 const api = Router();
 
-api.get('/', getAllUsers);
+api.get('/', auth, getAllUsers);
 api.get('/:id', getOneUser);
 
 api.post('/signup', createUser);
+api.post('/login', logUser);
 
 api.put('/:id', updateOneUser);
 

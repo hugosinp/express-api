@@ -1,12 +1,11 @@
-import bcrypt from 'bcrypt'
-import res from 'express/lib/response';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-import User from './userModel'
+import User from './userModel';
 
 /* GET /api/users ==> Retrieves all users */
 export const getAllUsers = async (req, res) => {
-
-    try{
+    try {
         // Query 
         const allUsers = await User.find();
 
@@ -24,8 +23,7 @@ export const getAllUsers = async (req, res) => {
 
 /* GET /api/users/:id ==> Retrieves specified user */
 export const getOneUser = async (req, res) => {
-
-    try{
+    try {
         // Query 
         const user = await User.findOne({ _id: req.params.id });
 
@@ -43,12 +41,13 @@ export const getOneUser = async (req, res) => {
 
 /* POST /api/users ==> Adds a new users */
 export const createUser = async (req, res) => {
+    try {
+        const hashed = await bcrypt.hash(req.body.password, 10);
 
-    try{
         // Object construction
         const user = new User({
             email: req.body.email,
-            password: passwordHash(req.body.password)
+            password: hashed
         });
 
         // Object saving promise
@@ -68,15 +67,19 @@ export const createUser = async (req, res) => {
 
 /* POST /api/users ==> Adds a new users */
 export const logUser = async (req, res) => {
-
-    try{
+    try {
         const user = await User.findOne({ email: req.body.email });
 
         if(user) {
-            if(passwordCompare(req.body.password, user.password)) {
+            const valid = await bcrypt.compare(req.body.password, user.password);
+            if(valid) {
                 res.status(200).json({
-                    userId: user.id,
-                    token: "token",
+                    userId: user._id,
+                    token: jwt.sign(
+                        { userId: user._id },
+                        'RANDOM_TOKEN_SECRET',
+                        { expiresIn: '24h' }
+                    ),
                     statusCode: 200
                 })
             } else {
@@ -100,8 +103,7 @@ export const logUser = async (req, res) => {
 
 /* PUT /api/users/:id ==> Modifies an existing users */
 export const updateOneUser = async (req, res) => {
-
-    try{
+    try {
         // Object updating promise
         const modifiedUser = await User.updateOne(
             { _id: req.params.id }, 
@@ -122,8 +124,7 @@ export const updateOneUser = async (req, res) => {
 
 /* DELETE /api/users/:id ==> Deletes an existing users */
 export const deleteOneUser = async (req, res) => {
-
-    try{
+    try {
         // Object delete promise
         const deletedUser = await User.deleteOne(
             { _id: req.params.id },
@@ -139,31 +140,4 @@ export const deleteOneUser = async (req, res) => {
         res.status(400).json({ message : error.message });
     }
 
-}
-
-
-// Password Hash function
-const passwordHash = async (reqPassword) => {
-    try {
-        return await bcrypt.hash(reqPassword, 10);
-
-    } catch(error) {
-        res.status(500).json({ message : error.message });
-    }
-}
-
-// Password compare function
-const passwordCompare = async (reqPassword, userPassword) => {
-    try {
-        const valid = await bcrypt.compare(reqPassword, userPassword);
-
-        if(valid) {
-            return true;
-        } else {
-            return false;
-        }
-
-    } catch(error) {
-        res.status(500).json({ message : error.message });
-    }
 }
