@@ -1,10 +1,18 @@
 import { Router } from 'express'
+import {
+    getAllStuff,
+    getOneStuff,
+    createStuff,
+    updateOneStuff,
+    deleteOneStuff
+} from './stuffControler'
 
 const api = Router();
 
-/* GET /api/stuff ==> Retrieve all stuff */
-api.get('/', async (req, res) => {
-    res.json({"stuff": "passed !"});
-})
+api.get('/', getAllStuff);
+api.get('/:id', getOneStuff);
+api.post('/', createStuff);
+api.put('/:id', updateOneStuff);
+api.delete('/:id', deleteOneStuff);
 
 export default api;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node src/main.js",
-    "dev"  : "nodemon --exec npm start"
+    "dev": "nodemon --exec npm start"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/hugosinp/express-api#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mongoose": "^6.2.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
