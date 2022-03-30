@@ -77,7 +77,7 @@ export const logUser = async (req, res) => {
                     userId: user._id,
                     token: jwt.sign(
                         { userId: user._id },
-                        'RANDOM_TOKEN_SECRET',
+                        process.env.ACCESS_TOKEN_SECRET,
                         { expiresIn: '24h' }
                     ),
                     statusCode: 200

@@ -8,6 +8,7 @@ export const launch = (port) => {
     const application = express();
 
     application.use(express.json());
+    application.use(express.urlencoded({ extended: true }));
 
     application.use('/', routes);
 
