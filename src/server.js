@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 import routes from './routes';
 
@@ -7,6 +8,7 @@ export const launch = (port) => {
     const application = express();
 
     application.use(express.json());
+
     application.use('/', routes);
 
     application.listen(port, () => {
@@ -18,9 +20,9 @@ export const launch = (port) => {
 
 const dbConnect = () => {
     try {
-        mongoose.connect('mongodb+srv://hugosinp:Cluster0@cluster0.zoeod.mongodb.net/Cluster0?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
-        console.log('Connexion à MongoDB réussie !')
+        mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+        console.log('Connection to MongoDB established 🍀')
     } catch (error) {
-        console.log('Connexion à MongoDB échouée !')
+        console.log('Connection to MongoDB failed !')
     }
 }
