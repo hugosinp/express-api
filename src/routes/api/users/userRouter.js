@@ -13,12 +13,9 @@ const api = Router();
 
 api.get('/', auth, getAllUsers);
 api.get('/:id', getOneUser);
-
 api.post('/signup', createUser);
 api.post('/login', logUser);
-
 api.put('/:id', updateOneUser);
-
 api.delete('/:id', deleteOneUser);
 
 export default api;

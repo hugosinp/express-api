@@ -39,9 +39,10 @@ export const getOneUser = async (req, res) => {
 
 }
 
-/* POST /api/users ==> Adds a new users */
+/* POST /api/users/signup ==> Creates a new user */
 export const createUser = async (req, res) => {
     try {
+        // Hashing password 
         const hashed = await bcrypt.hash(req.body.password, 10);
 
         // Object construction
@@ -65,7 +66,7 @@ export const createUser = async (req, res) => {
 
 }
 
-/* POST /api/users ==> Adds a new users */
+/* POST /api/users/login ==> Logs an user if he exists and if the provided credentials are valid */
 export const logUser = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email });
@@ -101,7 +102,7 @@ export const logUser = async (req, res) => {
 
 }
 
-/* PUT /api/users/:id ==> Modifies an existing users */
+/* PUT /api/users/:id ==> Modifies an existing user */
 export const updateOneUser = async (req, res) => {
     try {
         // Object updating promise
@@ -111,7 +112,7 @@ export const updateOneUser = async (req, res) => {
         );
 
         res.status(200).json({ 
-            message: "User modified ! ",
+            message: "User modified !",
             object: modifiedUser,
             statusCode: 200
         });
@@ -122,7 +123,7 @@ export const updateOneUser = async (req, res) => {
 
 }
 
-/* DELETE /api/users/:id ==> Deletes an existing users */
+/* DELETE /api/users/:id ==> Deletes an existing user */
 export const deleteOneUser = async (req, res) => {
     try {
         // Object delete promise

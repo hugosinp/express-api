@@ -2,7 +2,6 @@ import Stuff from './stuffModel'
 
 /* GET /api/stuff ==> Retrieves all stuff */
 export const getAllStuff = async (req, res) => {
-
     try{
         // Query 
         const allStuff = await Stuff.find();
@@ -21,7 +20,6 @@ export const getAllStuff = async (req, res) => {
 
 /* GET /api/stuff/:id ==> Retrieves specified stuff */
 export const getOneStuff = async (req, res) => {
-
     try{
         // Query 
         const stuff = await Stuff.findOne({ _id: req.params.id });
@@ -38,9 +36,8 @@ export const getOneStuff = async (req, res) => {
 
 }
 
-/* POST /api/stuff ==> Adds a new stuff */
+/* POST /api/stuff ==> Creates a new stuff */
 export const createStuff = async (req, res) => {
-
     try{
         // Object construction
         const stuff = new Stuff({
@@ -64,7 +61,6 @@ export const createStuff = async (req, res) => {
 
 /* PUT /api/stuff/:id ==> Modifies an existing stuff */
 export const updateOneStuff = async (req, res) => {
-
     try{
         // Object updating promise
         const modifiedStuff = await Stuff.updateOne(
@@ -86,7 +82,6 @@ export const updateOneStuff = async (req, res) => {
 
 /* DELETE /api/stuff/:id ==> Deletes an existing stuff */
 export const deleteOneStuff = async (req, res) => {
-
     try{
         // Object delete promise
         const deletedStuff = await Stuff.deleteOne(

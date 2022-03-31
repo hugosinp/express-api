@@ -2,7 +2,7 @@
   "name": "express-api",
   "version": "1.0.0",
   "description": "ExpressJS API boilerplate",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "babel-node src/main.js",
     "dev": "nodemon --exec npm start"
