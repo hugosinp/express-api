@@ -1,14 +1,14 @@
-import Stuff from './stuffModel'
+import Item from './itemsModel'
 
-/* GET /api/stuff ==> Retrieves all stuff */
-export const getAllStuff = async (req, res) => {
+/* GET /api/item ==> Retrieves all item */
+export const getAllItems = async (req, res) => {
     try{
         // Query 
-        const allStuff = await Stuff.find();
+        const allItems = await Item.find();
 
         //Response
         res.status(200).json({ 
-            stuff: allStuff,
+            item: allItems,
             statusCode: 200
         });
 
@@ -18,15 +18,15 @@ export const getAllStuff = async (req, res) => {
 
 }
 
-/* GET /api/stuff/:id ==> Retrieves specified stuff */
-export const getOneStuff = async (req, res) => {
+/* GET /api/item/:id ==> Retrieves specified item */
+export const getOneItem = async (req, res) => {
     try{
         // Query 
-        const stuff = await Stuff.findOne({ _id: req.params.id });
+        const item = await Item.findOne({ _id: req.params.id });
 
         //Response
         res.status(200).json({ 
-            stuff: stuff,
+            item: item,
             statusCode: 200
         });
 
@@ -36,20 +36,20 @@ export const getOneStuff = async (req, res) => {
 
 }
 
-/* POST /api/stuff ==> Creates a new stuff */
-export const createStuff = async (req, res) => {
+/* POST /api/item ==> Creates a new item */
+export const createItem = async (req, res) => {
     try{
         // Object construction
-        const stuff = new Stuff({
+        const item = new Item({
             ...req.body
         });
 
         // Object saving promise
-        const newStuff = await stuff.save();
+        const newItem = await item.save();
 
         res.status(201).json({ 
-            message: "Stuff created ! ",
-            object: newStuff,
+            message: "Item created ! ",
+            object: newItem,
             statusCode: 201
         });
 
@@ -59,18 +59,18 @@ export const createStuff = async (req, res) => {
 
 }
 
-/* PUT /api/stuff/:id ==> Modifies an existing stuff */
-export const updateOneStuff = async (req, res) => {
+/* PUT /api/item/:id ==> Modifies an existing item */
+export const updateOneItem = async (req, res) => {
     try{
         // Object updating promise
-        const modifiedStuff = await Stuff.updateOne(
+        const modifiedItem = await Item.updateOne(
             { _id: req.params.id }, 
             { ...req.body, _id: req.params.id }
         );
 
         res.status(200).json({ 
-            message: "Stuff modified ! ",
-            object: modifiedStuff,
+            message: "Item modified ! ",
+            object: modifiedItem,
             statusCode: 200
         });
 
@@ -80,17 +80,17 @@ export const updateOneStuff = async (req, res) => {
 
 }
 
-/* DELETE /api/stuff/:id ==> Deletes an existing stuff */
-export const deleteOneStuff = async (req, res) => {
+/* DELETE /api/item/:id ==> Deletes an existing item */
+export const deleteOneItem = async (req, res) => {
     try{
         // Object delete promise
-        const deletedStuff = await Stuff.deleteOne(
+        const deletedItem = await Item.deleteOne(
             { _id: req.params.id },
         );
 
         res.status(200).json({ 
-            message: "Stuff deleted !",
-            object: deletedStuff,
+            message: "Item deleted !",
+            object: deletedItem,
             statusCode: 200
         });
 
