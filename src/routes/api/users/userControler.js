@@ -55,8 +55,7 @@ export const createUser = async (req, res) => {
         const newUser = await user.save();
 
         res.status(201).json({ 
-            message: "User created !",
-            object: newUser,
+            message: `User ${newUser.email} created !`,
             statusCode: 201
         });
 
@@ -75,7 +74,10 @@ export const logUser = async (req, res) => {
             const valid = await bcrypt.compare(req.body.password, user.password);
             if(valid) {
                 res.status(200).json({
-                    userId: user._id,
+                    userInfos: {
+                        "userId": user._id,
+                        "email": user.email
+                    },
                     token: jwt.sign(
                         { userId: user._id },
                         process.env.ACCESS_TOKEN_SECRET,
