@@ -54,12 +54,15 @@ export const createUser = async (req, res) => {
         // Object saving promise
         const newUser = await user.save();
 
+        console.log(`✅ User : "${req.body.email}" -- register request success 200`);
+
         res.status(201).json({ 
             message: `User ${newUser.email} created !`,
             statusCode: 201
         });
 
     } catch(error) {
+        console.log(`❌ User : "${req.body.email}" -- register request failed 400 \n ${error.message}`);
         res.status(400).json({ message : error.message });
     }
 
@@ -73,6 +76,9 @@ export const logUser = async (req, res) => {
         if(user) {
             const valid = await bcrypt.compare(req.body.password, user.password);
             if(valid) {
+
+                console.log(`✅ User : "${req.body.email}" -- log request success 200`);
+
                 res.status(200).json({
                     userInfos: {
                         "userId": user._id,
@@ -84,18 +90,27 @@ export const logUser = async (req, res) => {
                         { expiresIn: '24h' }
                     ),
                     statusCode: 200
-                })
+                });
+
             } else {
+
+                console.log(`❌ User : "${req.body.email}" -- log request failed : Incorrect Password 401`);
+                
                 res.status(401).json({
                     message: "Incorrect Password !",
                     statusCode: 401
-                })
+                });
+
             }
         } else {
+
+            console.log(`❌ User : "${req.body.email}" -- log request failed : User Not found 404`);
+
             res.status(404).json({ 
                 message: "User not found",
                 statusCode: 404
             });
+
         }
 
     } catch(error) {
