@@ -42,24 +42,35 @@ export const getOneUser = async (req, res) => {
 /* POST /api/users/signup ==> Creates a new user */
 export const createUser = async (req, res) => {
     try {
-        // Hashing password 
-        const hashed = await bcrypt.hash(req.body.password, 10);
 
-        // Object construction
-        const user = new User({
-            email: req.body.email,
-            password: hashed
-        });
+        const userExists = await User.findOne({ email: req.body.email });
+        if (userExists) {
+            console.log(`❌ User : "${req.body.email}" -- register request failed : User already exists`);
 
-        // Object saving promise
-        const newUser = await user.save();
+            res.status(400).json({ 
+                message: `User ${req.body.email} register request failed 400`,
+                statusCode: 400
+            });
+        } else{
+            // Hashing password 
+            const hashed = await bcrypt.hash(req.body.password, 10);
 
-        console.log(`✅ User : "${req.body.email}" -- register request success 200`);
+            // Object construction
+            const user = new User({
+                email: req.body.email,
+                password: hashed
+            });
 
-        res.status(201).json({ 
-            message: `User ${newUser.email} created !`,
-            statusCode: 201
-        });
+            // Object saving promise
+            const newUser = await user.save();
+
+            console.log(`✅ User : "${req.body.email}" -- register request success 200`);
+
+            res.status(201).json({ 
+                message: `User ${newUser.email} created !`,
+                statusCode: 201
+            });
+        }
 
     } catch(error) {
         console.log(`❌ User : "${req.body.email}" -- register request failed 400 \n ${error.message}`);
