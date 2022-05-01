@@ -11,7 +11,7 @@ import {
 
 const api = Router();
 
-api.get('/', auth, getAllUsers);
+api.get('/', getAllUsers);
 api.get('/:id', getOneUser);
 api.post('/register', createUser);
 api.post('/login', logUser);
