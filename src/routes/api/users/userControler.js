@@ -91,10 +91,10 @@ export const logUser = async (req, res) => {
                 console.log(`✅ User : "${req.body.email}" -- log request success 200`);
 
                 res.status(200).json({
-                    userId: user._id,
+                    _id: user._id,
                     email: user.email,
                     token: jwt.sign(
-                        { userId: user._id },
+                        { _id: user._id },
                         process.env.ACCESS_TOKEN_SECRET,
                         { expiresIn: '24h' }
                     ),

@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
         } else {
             next();
         }
-    } catch {
+    } catch (error) {
         res.status(401).json({
             error: "Not authenticated"
         })
