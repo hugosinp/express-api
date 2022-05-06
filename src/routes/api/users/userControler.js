@@ -11,7 +11,7 @@ export const getAllUsers = async (req, res) => {
 
         //Response
         res.status(200).json({ 
-            users: allUsers,
+            userList: allUsers,
             statusCode: 200
         });
 

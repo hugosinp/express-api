@@ -13,8 +13,8 @@ const auth = (req, res, next) => {
             next();
         }
     } catch (error) {
-        res.status(401).json({
-            error: "Not authenticated"
+        res.status(403).json({
+            error: "Invalid token"
         })
     }
 }

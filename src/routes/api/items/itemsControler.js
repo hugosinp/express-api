@@ -8,7 +8,7 @@ export const getAllItems = async (req, res) => {
 
         //Response
         res.status(200).json({ 
-            item: allItems,
+            itemList: allItems,
             statusCode: 200
         });
 
