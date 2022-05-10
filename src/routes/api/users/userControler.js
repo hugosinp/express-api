@@ -21,11 +21,11 @@ export const getAllUsers = async (req, res) => {
 
 }
 
-/* GET /api/users/:id ==> Retrieves specified user */
-export const getOneUser = async (req, res) => {
+/* GET /api/users/:username ==> Retrieves specified user by username */
+export const getOneUserByUsername = async (req, res) => {
     try {
         // Query 
-        const user = await User.findOne({ _id: req.params.id });
+        const user = await User.findOne({ username: req.params.username });
 
         //Response
         res.status(200).json({ 
@@ -36,7 +36,6 @@ export const getOneUser = async (req, res) => {
     } catch(error) {
         res.status(400).json({ message: error.message });
     }
-
 }
 
 /* POST /api/users/signup ==> Creates a new user */
@@ -57,6 +56,7 @@ export const createUser = async (req, res) => {
 
             // Object construction
             const user = new User({
+                username: req.body.username,
                 email: req.body.email,
                 password: hashed
             });
@@ -92,6 +92,7 @@ export const logUser = async (req, res) => {
 
                 res.status(200).json({
                     _id: user._id,
+                    username: user.username,
                     email: user.email,
                     token: jwt.sign(
                         { _id: user._id },

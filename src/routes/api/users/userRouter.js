@@ -2,7 +2,7 @@ import { Router } from 'express';
 import auth from '../../../middlewares/auth';
 import {
     getAllUsers,
-    getOneUser,
+    getOneUserByUsername,
     createUser,
     logUser,
     updateOneUser,
@@ -12,7 +12,7 @@ import {
 const api = Router();
 
 api.get('/', auth, getAllUsers);
-api.get('/:id', getOneUser);
+api.get('/:username', getOneUserByUsername);
 api.post('/register', createUser);
 api.post('/login', logUser);
 api.put('/:id', updateOneUser);
