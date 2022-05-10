@@ -1,5 +1,6 @@
 import Item from './itemsModel'
 
+
 /* GET /api/item ==> Retrieves all item */
 export const getAllItems = async (req, res) => {
     try{
@@ -18,11 +19,12 @@ export const getAllItems = async (req, res) => {
 
 }
 
-/* GET /api/item/:id ==> Retrieves specified item */
+
+/* GET /api/item/:slug ==> Retrieves specified item */
 export const getOneItem = async (req, res) => {
     try{
         // Query 
-        const item = await Item.findOne({ _id: req.params.id });
+        const item = await Item.findOne({ slug: req.params.slug });
 
         //Response
         res.status(200).json({ 
@@ -36,16 +38,18 @@ export const getOneItem = async (req, res) => {
 
 }
 
+
 /* POST /api/item ==> Creates a new item */
 export const createItem = async (req, res) => {
     try{
-        // Object construction
-        const item = new Item({
-            ...req.body
-        });
 
-        // Object saving promise
-        const newItem = await item.save();
+        const newSlug = req.body.title.replace(/\s+/g, '-').toLowerCase();
+
+        // Query
+        const newItem = await Item.create({
+            ...req.body,
+            slug: newSlug
+        });
 
         res.status(201).json({ 
             message: "Item created ! ",
@@ -59,33 +63,56 @@ export const createItem = async (req, res) => {
 
 }
 
-/* PUT /api/item/:id ==> Modifies an existing item */
+
+/* PUT /api/item/:slug ==> Modifies an existing item */
 export const updateOneItem = async (req, res) => {
+    
     try{
-        // Object updating promise
+        // Query
         const modifiedItem = await Item.updateOne(
-            { _id: req.params.id }, 
-            { ...req.body, _id: req.params.id }
+            { slug: req.params.slug },
+            { 
+                ...req.body, 
+                slug: req.params.slug 
+            },
+            { runValidators: true, context: 'query' },
         );
 
-        res.status(200).json({ 
-            message: "Item modified ! ",
-            object: modifiedItem,
-            statusCode: 200
-        });
+        if (modifiedItem.matchedCount != 0) {
+            if (modifiedItem.modifiedCount != 0) {
+                res.status(200).json({ 
+                    message: "Item modified !",
+                    object: modifiedItem,
+                    statusCode: 200
+                });
+            } else {
+                res.status(200).json({ 
+                    message: "No changes to apply",
+                    object: modifiedItem,
+                    statusCode: 200
+                });
+            }
+            
+        } else {
+            res.status(404).json({ 
+                message: "Item not found",
+                object: modifiedItem,
+                statusCode: 404
+            });
+        }
 
     } catch(error) {
         res.status(400).json({ message : error.message });
     }
-
 }
+
 
 /* DELETE /api/item/:id ==> Deletes an existing item */
 export const deleteOneItem = async (req, res) => {
     try{
-        // Object delete promise
+        // Query
         const deletedItem = await Item.deleteOne(
-            { _id: req.params.id },
+            { slug: req.params.slug },
         );
 
         res.status(200).json({ 

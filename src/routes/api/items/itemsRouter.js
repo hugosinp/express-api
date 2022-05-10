@@ -10,9 +10,9 @@ import {
 const api = Router();
 
 api.get('/', getAllItems);
-api.get('/:id', getOneItem);
+api.get('/:slug', getOneItem);
 api.post('/', createItem);
-api.put('/:id', updateOneItem);
-api.delete('/:id', deleteOneItem);
+api.put('/:slug', updateOneItem);
+api.delete('/:slug', deleteOneItem);
 
 export default api;
