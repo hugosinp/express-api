@@ -14,7 +14,8 @@ const auth = (req, res, next) => {
         }
     } catch (error) {
         res.status(403).json({
-            error: error
+            error: error,
+            statusCode: 403
         })
     }
 }

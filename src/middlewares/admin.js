@@ -21,8 +21,9 @@ const admin = async (req, res, next) => {
         }
 
     } catch (error) {
-        res.status(403).json({
-            error: error
+        res.status(401).json({
+            error: error,
+            statusCode: 401
         })
     }
 }
