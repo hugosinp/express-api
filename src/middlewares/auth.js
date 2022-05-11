@@ -7,11 +7,6 @@ const auth = (req, res, next) => {
 
         const userId = decodedToken._id;
 
-        console.log(decodedToken);
-
-        console.log(userId);
-        console.log(req.body);
-
         if(req.body._id && req.body._id !== userId) {
             throw 'Invalid user ID';
         } else {

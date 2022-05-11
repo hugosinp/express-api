@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
-import User from '../routes/api/users/userModel'
-const auth = (req, res, next) => {
+import User from '../routes/api/users/userModel';
+
+const admin = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -11,13 +12,11 @@ const auth = (req, res, next) => {
             throw 'Invalid user ID';
         } 
         
-        const user = await User.findOne({ _id: req.params._id });
+        const user = await User.findOne({ _id: req.body._id });
 
-        if(user) {
-            console.log(user);
+        if(user.isAdmin === true) {
             next();
-        }
-        else {
+        } else {
             throw 'Unauthorized';
         }
 
@@ -28,4 +27,4 @@ const auth = (req, res, next) => {
     }
 }
 
-export default auth;
+export default admin;
