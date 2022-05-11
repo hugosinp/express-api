@@ -15,7 +15,7 @@ api.get('/', auth, getAllUsers);
 api.get('/:username', getOneUserByUsername);
 api.post('/register', createUser);
 api.post('/login', logUser);
-api.put('/:id', updateOneUser);
-api.delete('/:id', deleteOneUser);
+api.put('/:username', updateOneUser);
+api.delete('/:username', deleteOneUser);
 
 export default api;

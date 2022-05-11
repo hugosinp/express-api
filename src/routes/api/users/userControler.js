@@ -7,9 +7,8 @@ import User from './userModel';
 export const getAllUsers = async (req, res) => {
     try {
         // Query 
-        const allUsers = await User.find();
+        const allUsers = await User.find({}, ['username', 'email']);
 
-        //Response
         res.status(200).json({ 
             userList: allUsers,
             statusCode: 200
@@ -42,35 +41,21 @@ export const getOneUserByUsername = async (req, res) => {
 export const createUser = async (req, res) => {
     try {
 
-        const userExists = await User.findOne({ email: req.body.email });
-        if (userExists) {
-            console.log(`❌ User : "${req.body.email}" -- register request failed : User already exists`);
+        // Password Hashing
+        const hashed = await bcrypt.hash(req.body.password, 10);
 
-            res.status(400).json({ 
-                message: `User ${req.body.email} register request failed 400`,
-                statusCode: 400
-            });
-        } else{
-            // Hashing password 
-            const hashed = await bcrypt.hash(req.body.password, 10);
+        // Query
+        const newUser = await User.create({
+            ...req.body,
+            password: hashed
+        });
 
-            // Object construction
-            const user = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashed
-            });
+        console.log(`✅ User : "${req.body.email}" -- register request success 200`);
 
-            // Object saving promise
-            const newUser = await user.save();
-
-            console.log(`✅ User : "${req.body.email}" -- register request success 200`);
-
-            res.status(201).json({ 
-                message: `User ${newUser.email} created !`,
-                statusCode: 201
-            });
-        }
+        res.status(201).json({ 
+            message: `User ${newUser.email} created !`,
+            statusCode: 201
+        });
 
     } catch(error) {
         console.log(`❌ User : "${req.body.email}" -- register request failed 400 \n ${error.message}`);
@@ -128,13 +113,13 @@ export const logUser = async (req, res) => {
 
 }
 
-/* PUT /api/users/:id ==> Modifies an existing user */
+/* PUT /api/users/:username ==> Modifies an existing user */
 export const updateOneUser = async (req, res) => {
     try {
-        // Object updating promise
+        // Query
         const modifiedUser = await User.updateOne(
-            { _id: req.params.id }, 
-            { ...req.body, _id: req.params.id }
+            { username: req.params.username }, 
+            { ...req.body }
         );
 
         res.status(200).json({ 
@@ -149,12 +134,12 @@ export const updateOneUser = async (req, res) => {
 
 }
 
-/* DELETE /api/users/:id ==> Deletes an existing user */
+/* DELETE /api/users/:username ==> Deletes an existing user */
 export const deleteOneUser = async (req, res) => {
     try {
-        // Object delete promise
+        // Query
         const deletedUser = await User.deleteOne(
-            { _id: req.params.id },
+            { username: req.params.username },
         );
 
         res.status(200).json({ 
