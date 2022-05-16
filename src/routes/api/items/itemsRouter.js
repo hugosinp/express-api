@@ -12,7 +12,7 @@ const api = Router();
 api.get('/', getAllItems);
 api.get('/:slug', getOneItem);
 api.post('/', createItem);
-api.put('/:slug', updateOneItem);
-api.delete('/:slug', deleteOneItem);
+api.put('/:_id', updateOneItem);
+api.delete('/:_id', deleteOneItem);
 
 export default api;

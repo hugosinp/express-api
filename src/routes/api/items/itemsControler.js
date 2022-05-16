@@ -5,7 +5,7 @@ import Item from './itemsModel'
 export const getAllItems = async (req, res) => {
     try{
         // Query 
-        const allItems = await Item.find();
+        const allItems = await Item.find({}, ['_id', 'title', 'description', 'price']);
 
         //Response
         res.status(200).json({ 
@@ -64,16 +64,15 @@ export const createItem = async (req, res) => {
 }
 
 
-/* PUT /api/item/:slug ==> Modifies an existing item */
+/* PUT /api/item/:_id ==> Modifies an existing item */
 export const updateOneItem = async (req, res) => {
     
     try{
         // Query
         const modifiedItem = await Item.updateOne(
-            { slug: req.params.slug },
+            { _id: req.params._id },
             { 
                 ...req.body, 
-                slug: req.params.slug 
             },
             { runValidators: true, context: 'query' },
         );
@@ -107,12 +106,12 @@ export const updateOneItem = async (req, res) => {
 }
 
 
-/* DELETE /api/item/:id ==> Deletes an existing item */
+/* DELETE /api/item/:_id ==> Deletes an existing item */
 export const deleteOneItem = async (req, res) => {
     try{
         // Query
         const deletedItem = await Item.deleteOne(
-            { slug: req.params.slug },
+            { _id: req.params._id },
         );
 
         res.status(200).json({ 
@@ -122,7 +121,8 @@ export const deleteOneItem = async (req, res) => {
         });
 
     } catch(error) {
-        res.status(400).json({ message : error.message });
+        res.status(404).json({ message : error.message });
+        console.error(error);
     }
 
 }

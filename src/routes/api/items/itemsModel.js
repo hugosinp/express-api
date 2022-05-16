@@ -7,7 +7,7 @@ const itemModel = mongoose.Schema({
     imageUrl: { type: String, required: false },
     userId: { type: String, required: false },
     price: { type: Number, required: false },
-    slug: { type: String, required: true }
+    slug: { type: String, required: true },
 });
 
 itemModel.plugin(uniqueValidator);
